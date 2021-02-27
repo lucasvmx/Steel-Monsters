@@ -10,9 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Generate configuration
-      run: |
-        autoconf --version
-        autoreconf -i
+      run: autoreconf -i
     - name: Generate makefiles
       run: ./configure
     - name: Build
