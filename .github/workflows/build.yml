@@ -1,0 +1,17 @@
+name: Build
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Generate configuration
+      run: autoreconf -i
+    - name: Generate makefiles
+      run: ./configure
+    - name: Build
+      run: make
