@@ -1,3 +1,5 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/lucas-engen/steel-monsters/badge)](https://www.codefactor.io/repository/github/lucas-engen/steel-monsters)
+
 # Steel Monsters
 
 It's a 2D battle game between tanks
