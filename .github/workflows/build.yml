@@ -9,6 +9,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Update/Install packages
+      run: |
+        apt update
+        apt install autoconf
     - name: Generate configuration
       run: autoreconf -i
     - name: Generate makefiles
