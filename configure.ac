@@ -2,7 +2,7 @@
 AC_INIT([steel-monsters], [0.1.0], [lucas.engen.cc@gmail.com])
 
 # Check version prerequisites
-AC_PREREQ([2.70])
+AC_PREREQ([2.69])
 
 AC_CONFIG_SRCDIR([src])
 AM_INIT_AUTOMAKE([1.16 gnu subdir-objects])
