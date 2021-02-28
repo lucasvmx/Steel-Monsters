@@ -13,6 +13,9 @@ AC_PROG_CC
 AC_CHECK_HEADER([raylib.h], [AC_DEFINE(HAVE_RAYLIB_H, 1, have raylib)],
                 [AC_MSG_ERROR([we dont have raylib installed])])
 
+AC_CHECK_LIB([raylib], [AC_MSG_NOTICE([raylib library found])], 
+                [AC_MSG_ERROR([failed to find libraylib])])
+
 AC_CONFIG_HEADERS([src/config.h])
 
 # Configure makefile
