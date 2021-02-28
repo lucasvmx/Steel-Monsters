@@ -3,7 +3,7 @@
 #include "ui.h"
 #include "game.h"
 #include "log.h"
-#include "config.h"
+#include "../build/config.h"
 
 // Functions
 static void start();
@@ -12,6 +12,8 @@ static void stop();
 
 static void start()
 {
+    log_notice("Starting %s", PACKAGE_STRING);
+
     // Initializes the main game window
     InitializeMainWindow();
 
