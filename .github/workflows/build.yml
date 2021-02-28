@@ -17,8 +17,8 @@ jobs:
         cd raylib/src
         make PLATFORM=PLATFORM_DESKTOP
         sudo make install
-        ls $PWD
-        cp -vv $PWD/raylib/libraylib.a /usr/lib
+        cd ..
+        cp -vv libraylib.a /usr/lib
     - name: Generate configuration
       run: autoreconf -i
     - name: Generate makefiles
