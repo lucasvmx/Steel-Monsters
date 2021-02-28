@@ -17,10 +17,7 @@ jobs:
         cd raylib/src
         make PLATFORM=PLATFORM_DESKTOP
         sudo make install
-    - name: Install latest autoconf
-      run: |
-        sudo apt update
-        sudo apt install -y autoconf
+        cp -vv raylib/libraylib.a /usr/lib
     - name: Generate configuration
       run: autoreconf -i
     - name: Generate makefiles
