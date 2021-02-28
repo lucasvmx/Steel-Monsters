@@ -9,9 +9,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Install raylib
+    - name: Download, build and install raylib
       run: |
-        sudo apt install -y raylib
+        sudo apt install -y build-essential
+        sudo apt install -y libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
+        git clone https://github.com/raysan5/raylib.git raylib
+        cd raylib/src
+        make PLATFORM=PLATFORM_DESKTOP RAYLIB_LIBTYPE=SHARED
+        sudo make install RAYLIB_LIBTYPE=SHARED
     - name: Generate configuration
       run: autoreconf -i
     - name: Generate makefiles
