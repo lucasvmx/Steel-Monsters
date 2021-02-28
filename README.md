@@ -15,6 +15,13 @@ It's a 2D battle game between tanks
     ```sh
     ./configure
     ```
+- Prepare building workspace
+    ```sh
+    mkdir build
+    cd build
+    ../configure
+    ```
+
 - Build program
     ```sh
     make
