@@ -16,7 +16,7 @@ AC_CHECK_HEADER([raylib.h], [AC_DEFINE(HAVE_RAYLIB_H, 1, have raylib)],
 AC_CHECK_LIB([raylib], [BeginDrawing])
 AC_CHECK_LIB([raylib], [WindowShouldClose])
 
-AC_CONFIG_HEADERS([src/config.h])
+AC_CONFIG_HEADERS([config.h])
 
 # Configure makefile
 AC_CONFIG_FILES([Makefile])
