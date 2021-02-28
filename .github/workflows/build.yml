@@ -15,10 +15,10 @@ jobs:
         sudo apt install -y libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
         git clone https://github.com/raysan5/raylib.git raylib
         cd raylib/src
-        make PLATFORM=PLATFORM_DESKTOP
-        sudo make install
+        make PLATFORM=PLATFORM_DESKTOP RAYLIB_LIBTYPE=SHARED
+        sudo make install RAYLIB_LIBTYPE=SHARED
         cd ..
-        sudo cp -vv libraylib.a /usr/lib
+        sudo cp -vv libraylib.so /usr/lib
     - name: Generate configuration
       run: autoreconf -i
     - name: Generate makefiles
