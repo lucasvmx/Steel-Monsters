@@ -21,7 +21,12 @@ jobs:
         sudo cp -vv libraylib.so /usr/lib
     - name: Generate configuration
       run: autoreconf -i
+    - name: Prepare workspace
+      run: mkdir build
     - name: Generate makefiles
-      run: ./configure
+      working-directory: build
+      run: ../configure
+
     - name: Build
+      working-directory: build
       run: make
