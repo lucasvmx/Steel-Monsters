@@ -1,13 +1,18 @@
 #include <raylib.h>
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 #include "ui.h"
 #include "game.h"
+#include "log.h"
 
+#define ID_BUTTON_START 1
+
+// Global variable
 static Color color;
 
-static Color BuildColor(int r, int g, int b) 
+Color BuildColor(int r, int g, int b) 
 {
     color.r = r;
     color.g = g;
@@ -17,16 +22,39 @@ static Color BuildColor(int r, int g, int b)
     return color;
 }
 
-void DrawGameMenu()
+static void processMenuEvents()
+{
+
+}
+
+static void setButtonID(BUTTON *btn, unsigned ID)
+{
+    btn->id = ID;
+}
+
+static void DrawButton(const char *text, int x, int y, int width, int height, Color color, Color textColor, BUTTON *btn)
+{    
+    DrawRectangle(x, y, width, height, color);
+    DrawText(text, x + (width / 6), y, height, textColor);
+
+    if(btn != NULL)
+    {
+        btn->color = color;
+        btn->rect.width = width;
+        btn->rect.height = height;
+        btn->rect.x = x;
+        btn->rect.y = y;
+        btn->id = 0;
+    } else {
+        log_error("Null pointer to button detected");
+    }
+}
+
+static void DrawButtons(BUTTON *buttons)
 {
     int rx, ry, rw, rh;
-    const char *startGameText = "START GAME";
-
-    BeginDrawing();
-    ClearBackground(RAYWHITE);
-
-    Color menuColor = BuildColor(0, 191, 255);
-    Color textColor = BuildColor(255, 255, 255);
+    BUTTON buttonStart;
+    Color buttonColor, textColor;
 
     // Calculates rectangle vertical alignment
     rx = GAME_WINDOW_WIDTH / 4;
@@ -34,28 +62,49 @@ void DrawGameMenu()
     rw = 2 * rx;
     rh = 50;
 
-    DrawRectangle(rx, ry, rw, rh, menuColor);
-    
-    // Draw text in center of previous rectangle
-    DrawText("START GAME", rx + 5, ry, rh, textColor);
+    // Select colors
+    buttonColor = BuildColor(0, 191, 255);
+    textColor = BuildColor(255, 255, 255);
+
+    // Draw game start button
+    DrawButton("START GAME", rx, ry, rw, rh, buttonColor, textColor, &buttonStart);
+    setButtonID(&buttonStart, ID_BUTTON_START);
+    buttons[0] = buttonStart;
 
     EndDrawing();
+}
 
-    Vector2 mousePos = GetMousePosition();
+void DrawGameMenu()
+{
+    BUTTON buttons[1];
 
-    Rectangle rect = {
-        .width = rw,
-        .height = rh,
-        .x = rx,
-        .y = ry
-    };
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    
+    // Draw buttons
+    DrawButtons(buttons);
 
-    if(CheckCollisionPointRec(mousePos, rect)) {
-        if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-            // Game can be started
-            StartGame();
+    // Process events
+    for(unsigned i = 0; i < cap(buttons); i++)
+    {
+        Vector2 mousePos = GetMousePosition();
+
+        switch(buttons[i].id)
+        {
+            case ID_BUTTON_START:
+
+                // Check if button has been pressed
+                if(CheckCollisionPointRec(mousePos, buttons[i].rect)) {
+                    if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+                        StartGame();
+                        break;
+                    }
+                }
+            break;
         }
     }
+
+    EndDrawing();
 }
 
 void InitializeMainWindow()
@@ -69,5 +118,5 @@ void InitializeMainWindow()
     InitWindow(GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT, WINDOW_TITLE);
 
     // Configure FPS
-    SetTargetFPS(30);
+    SetTargetFPS(120);
 }
