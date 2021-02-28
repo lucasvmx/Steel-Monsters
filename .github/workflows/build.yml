@@ -9,6 +9,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Install raylib
+      run: |
+        sudo apt instsall -y raylib
     - name: Generate configuration
       run: autoreconf -i
     - name: Generate makefiles
