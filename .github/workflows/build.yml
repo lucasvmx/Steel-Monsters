@@ -17,6 +17,10 @@ jobs:
         cd raylib/src
         make PLATFORM=PLATFORM_DESKTOP RAYLIB_LIBTYPE=SHARED
         sudo make install RAYLIB_LIBTYPE=SHARED
+    - name: Install latest autoconf
+      run: |
+        sudo apt update
+        sudo apt install -y autoconf
     - name: Generate configuration
       run: autoreconf -i
     - name: Generate makefiles
