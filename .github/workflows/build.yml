@@ -18,7 +18,7 @@ jobs:
         make PLATFORM=PLATFORM_DESKTOP
         sudo make install
         cd ..
-        cp -vv libraylib.a /usr/lib
+        sudo cp -vv libraylib.a /usr/lib
     - name: Generate configuration
       run: autoreconf -i
     - name: Generate makefiles
