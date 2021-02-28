@@ -1,4 +1,5 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/lucas-engen/steel-monsters/badge)](https://www.codefactor.io/repository/github/lucas-engen/steel-monsters)
+[![Build](https://github.com/lucas-engen/Steel-Monsters/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/lucas-engen/Steel-Monsters/actions/workflows/build.yml)
 
 # Steel Monsters
 
