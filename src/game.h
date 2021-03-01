@@ -6,5 +6,6 @@
 extern void StartGame();
 extern bool isGameRunning();
 extern void RunGame();
+extern void StopGame();
 
 #endif
