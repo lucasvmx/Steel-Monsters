@@ -4,6 +4,7 @@
 #include "game.h"
 #include "log.h"
 #include "ui.h"
+#include "tank.h"
 
 // Predefined functions
 static void DrawFrame();
@@ -11,6 +12,10 @@ static void DrawFrame();
 // Global variables
 static bool gameRunning = false;
 static bool gamePaused = false;
+
+static Image tankImg;
+static Texture2D tankTexture;
+static Sound shootSound;
 
 bool isGameRunning()
 {
@@ -29,6 +34,15 @@ void StartGame()
     // End drawing
     EndDrawing();
 
+    // Start audio system
+    InitAudioDevice();
+
+    shootSound = LoadSound("sounds/cannon.wav");
+    SetSoundVolume(shootSound, 0.2f);
+
+    tankImg = LoadTankImage();
+    tankTexture = LoadTextureFromImage(tankImg);
+
     // Run game
     RunGame();
 }
@@ -40,11 +54,18 @@ void RunGame()
     EndDrawing();
 }
 
+void StopGame()
+{
+    CloseAudioDevice();
+}
+
 static void DrawFrame()
 {
     static int tank_x = 0, tank_y = 100;
     Rectangle ground, tank;
     static float elapsed = 0;
+    const bool start_right = true;
+    static bool moving_right = start_right;
 
     ClearBackground(RAYWHITE);
     DrawFPS(0, 0);
@@ -68,7 +89,7 @@ static void DrawFrame()
         elapsed = 0;
     }
 
-    const int tank_width = 30, tank_height = 30;
+    int tank_width = tankTexture.width, tank_height = tankTexture.height;
 
     // Draw earth
     const int ground_height = GAME_WINDOW_HEIGHT - (GAME_WINDOW_HEIGHT / 3);
@@ -83,8 +104,8 @@ static void DrawFrame()
     tank_y = ground.y - tank_height;
 
     // Draw tank
-    DrawRectangle(tank_x, tank_y, tank_width, tank_height, BuildColor(255, 0, 0));
-
+    DrawTank(tankTexture, tank_x, tank_y, BuildColor(0, 255, 180));
+    
     tank.x = tank_x;
     tank.y = tank_y;
     tank.width = tank_width;
@@ -94,7 +115,18 @@ static void DrawFrame()
         if(IsKeyDown(KEY_D)) {
             // Move tank to the right
             if(tank_x < GAME_WINDOW_WIDTH) {
+                
                 tank_x += 1;
+
+                // Flip image
+                if(!moving_right) {
+
+                    ImageFlipHorizontal(&tankImg);
+
+                    moving_right = true;
+
+                    tankTexture = LoadTextureFromImage(tankImg);
+                }
             } else {
                 log_notice("You can't move to the right anymore");
                 tank_x = GAME_WINDOW_WIDTH - (tank_width + 10);
@@ -103,12 +135,19 @@ static void DrawFrame()
             // Move to left
             if(tank_x > 0) {
                 tank_x -= 1;
+
+                // Rotate 180 deg
+                if(moving_right) {
+                    ImageFlipHorizontal(&tankImg);
+                    moving_right = false;
+                    tankTexture = LoadTextureFromImage(tankImg);
+                }
             } else {
                 log_notice("You can't move to the left anymore");
             }
         } else if(IsKeyDown(KEY_SPACE)) {
             // Shoot
-
+            PlaySound(shootSound);
         }
     }
 }
