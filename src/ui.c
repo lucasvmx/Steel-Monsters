@@ -71,6 +71,12 @@ static void DrawButtons(BUTTON *buttons)
     setButtonID(&buttonStart, ID_BUTTON_START);
     buttons[0] = buttonStart;
 
+    // Change button color when mouse is hover
+    if(CheckCollisionPointRec(GetMousePosition(), buttonStart.rect)) {
+        buttonColor = BuildColor(50, 170, 0);
+        DrawButton("START GAME", rx, ry, rw, rh, buttonColor, textColor, &buttonStart);
+    }
+
     EndDrawing();
 }
 
