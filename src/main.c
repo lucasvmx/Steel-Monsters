@@ -38,6 +38,9 @@ static void loop()
             RunGame();
         }
     }
+
+    // Cleanup resources
+    StopGame();
 }
 
 int main()
