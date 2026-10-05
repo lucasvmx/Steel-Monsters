@@ -510,8 +510,8 @@ static void drawTank(bool faceRight, float x, float groundY, float angle, Color 
         for (int wheel = 0; wheel < 4; wheel++) DrawCircle((int)(x + 20.0f + wheel * 19.0f), (int)(groundY - 7.0f), 5.0f, GRAY);
     }
 
-    DrawLineEx((Vector2){pivotX, pivotY}, muzzle, barrelShadow, 8.0f);
-    DrawLineEx((Vector2){pivotX, pivotY}, muzzle, barrelFill, 4.0f);
+    DrawLineEx((Vector2){pivotX, pivotY}, muzzle, 8.0f, barrelShadow);
+    DrawLineEx((Vector2){pivotX, pivotY}, muzzle, 4.0f, barrelFill);
     DrawCircleV((Vector2){pivotX, pivotY}, 7.0f, barrelShadow);
     DrawCircleV((Vector2){pivotX, pivotY}, 4.5f, barrelFill);
 }
