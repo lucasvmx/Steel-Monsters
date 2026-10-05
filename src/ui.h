@@ -21,20 +21,8 @@
  */
 #define WINDOW_TITLE        "Steel Monsters"
 
-/**
- * @brief Returns the capacity of x
- * 
- */
-#define cap(x)  (sizeof(x)/sizeof(x[0]))
-
-typedef struct Button {
-    Rectangle rect;
-    Color color;
-    unsigned id;
-} BUTTON;
-
-extern void DrawGameMenu();
-extern void InitializeMainWindow();
-extern Color BuildColor(int r, int g, int b);
+void DrawGameMenu(void);
+void InitializeMainWindow(void);
+Color BuildColor(int r, int g, int b);
 
 #endif

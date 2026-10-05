@@ -3,9 +3,9 @@
 
 #include <stdbool.h>
 
-extern void StartGame();
-extern bool isGameRunning();
-extern void RunGame();
-extern void StopGame();
+void StartGame(void);
+bool isGameRunning(void);
+void RunGame(void);
+void StopGame(void);
 
 #endif

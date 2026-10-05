@@ -1,19 +1,14 @@
 #include <raylib.h>
-#include <stdio.h>
 #include "ui.h"
 #include "game.h"
-#include "log.h"
-#include "../build/config.h"
 
 // Functions
-static void start();
-static void loop();
-static void stop();
+static void start(void);
+static void loop(void);
+static void stop(void);
 
-static void start()
+static void start(void)
 {
-    log_notice("Starting %s", PACKAGE_STRING);
-
     // Initializes the main game window
     InitializeMainWindow();
 
@@ -21,13 +16,13 @@ static void start()
     loop();
 }
 
-static void stop()
+static void stop(void)
 {
     // Closes the main window
     CloseWindow();
 }
 
-static void loop()
+static void loop(void)
 {
     // Draw menus
     while(!WindowShouldClose())
@@ -43,7 +38,7 @@ static void loop()
     StopGame();
 }
 
-int main()
+int main(void)
 {
     // Start game
     start();

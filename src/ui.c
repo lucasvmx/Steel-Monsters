@@ -1,128 +1,47 @@
 #include <raylib.h>
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
+#include <stdbool.h>
 
 #include "ui.h"
 #include "game.h"
-#include "log.h"
 
-#define ID_BUTTON_START 1
-
-// Global variable
-static Color color;
-
-Color BuildColor(int r, int g, int b) 
+Color BuildColor(int r, int g, int b)
 {
-    color.r = r;
-    color.g = g;
-    color.b = b;
-    color.a = 255;
-
-    return color;
+    return (Color){(unsigned char)r, (unsigned char)g, (unsigned char)b, 255};
 }
 
-static void processMenuEvents()
+void DrawGameMenu(void)
 {
-
-}
-
-static void setButtonID(BUTTON *btn, unsigned ID)
-{
-    btn->id = ID;
-}
-
-static void DrawButton(const char *text, int x, int y, int width, int height, Color color, Color textColor, BUTTON *btn)
-{    
-    DrawRectangle(x, y, width, height, color);
-    DrawText(text, x + (width / 6), y, height, textColor);
-
-    if(btn != NULL)
-    {
-        btn->color = color;
-        btn->rect.width = width;
-        btn->rect.height = height;
-        btn->rect.x = x;
-        btn->rect.y = y;
-        btn->id = 0;
-    } else {
-        log_error("Null pointer to button detected");
-    }
-}
-
-static void DrawButtons(BUTTON *buttons)
-{
-    int rx, ry, rw, rh;
-    BUTTON buttonStart;
-    Color buttonColor, textColor;
-
-    // Calculates rectangle vertical alignment
-    rx = GAME_WINDOW_WIDTH / 4;
-    ry = GAME_WINDOW_HEIGHT / 2;
-    rw = 2 * rx;
-    rh = 50;
-
-    // Select colors
-    buttonColor = BuildColor(0, 191, 255);
-    textColor = BuildColor(255, 255, 255);
-
-    // Draw game start button
-    DrawButton("START GAME", rx, ry, rw, rh, buttonColor, textColor, &buttonStart);
-    setButtonID(&buttonStart, ID_BUTTON_START);
-    buttons[0] = buttonStart;
-
-    // Change button color when mouse is hover
-    if(CheckCollisionPointRec(GetMousePosition(), buttonStart.rect)) {
-        buttonColor = BuildColor(50, 170, 0);
-        DrawButton("START GAME", rx, ry, rw, rh, buttonColor, textColor, &buttonStart);
-    }
-
-    EndDrawing();
-}
-
-void DrawGameMenu()
-{
-    BUTTON buttons[1];
+    const Rectangle startButton = {362.0f, 302.0f, 300.0f, 62.0f};
+    const bool hovering = CheckCollisionPointRec(GetMousePosition(), startButton);
+    const bool startPressed = hovering && IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+    const Color buttonColor = hovering ? (Color){73, 184, 119, 255} : (Color){42, 135, 171, 255};
 
     BeginDrawing();
-    ClearBackground(RAYWHITE);
-    
-    // Draw buttons
-    DrawButtons(buttons);
+    DrawRectangleGradientV(0, 0, GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT,
+                           (Color){29, 52, 65, 255}, (Color){12, 24, 32, 255});
+    DrawCircle(824, 109, 78.0f, Fade((Color){232, 171, 99, 255}, 0.13f));
+    DrawCircle(824, 109, 54.0f, Fade((Color){232, 171, 99, 255}, 0.17f));
 
-    // Process events
-    for(unsigned i = 0; i < cap(buttons); i++)
-    {
-        Vector2 mousePos = GetMousePosition();
+    DrawText("STEEL", 104, 76, 66, RAYWHITE);
+    DrawText("MONSTERS", 104, 139, 66, (Color){226, 163, 100, 255});
+    DrawText("TANK DUEL", 108, 224, 19, (Color){170, 193, 198, 255});
 
-        switch(buttons[i].id)
-        {
-            case ID_BUTTON_START:
+    DrawRectangleRounded(startButton, 0.18f, 10, buttonColor);
+    const char *buttonLabel = "START BATTLE";
+    DrawText(buttonLabel, (GAME_WINDOW_WIDTH - MeasureText(buttonLabel, 24)) / 2,
+             (int)startButton.y + 17, 24, RAYWHITE);
 
-                // Check if button has been pressed
-                if(CheckCollisionPointRec(mousePos, buttons[i].rect)) {
-                    if(IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-                        StartGame();
-                        break;
-                    }
-                }
-            break;
-        }
-    }
+    DrawText("A / D or arrows  -  MOVE", 339, 397, 18, (Color){205, 216, 212, 255});
+    DrawText("SPACE  -  FIRE     P  -  PAUSE", 313, 427, 18, (Color){205, 216, 212, 255});
 
     EndDrawing();
+
+    if (startPressed) StartGame();
 }
 
-void InitializeMainWindow()
+void InitializeMainWindow(void)
 {
-    int width, height;
-
-    width = GetScreenWidth();
-    height = GetScreenHeight();
-
-    // Initialize game window
     InitWindow(GAME_WINDOW_WIDTH, GAME_WINDOW_HEIGHT, WINDOW_TITLE);
-
-    // Configure FPS
-    SetTargetFPS(120);
+    SetExitKey(KEY_NULL);
+    SetTargetFPS(60);
 }

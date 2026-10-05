@@ -1,32 +1,44 @@
 name: Build
 
-on: [ push, pull_request ]
+on:
+  push:
+  pull_request:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Download, build and install raylib
-      run: |
-        sudo apt install -y build-essential
-        sudo apt install -y libasound2-dev mesa-common-dev libx11-dev libxrandr-dev libxi-dev xorg-dev libgl1-mesa-dev libglu1-mesa-dev
-        git clone https://github.com/raysan5/raylib.git raylib
-        cd raylib/src
-        make PLATFORM=PLATFORM_DESKTOP RAYLIB_LIBTYPE=SHARED
-        sudo make install RAYLIB_LIBTYPE=SHARED
-        cd ..
-        sudo cp -vv libraylib.so /usr/lib
-    - name: Generate configuration
-      run: autoreconf -i
-    - name: Prepare workspace
-      run: mkdir build
-    - name: Generate makefiles
-      working-directory: build
-      run: ../configure
+      - uses: actions/checkout@v4
 
-    - name: Build
-      working-directory: build
-      run: make
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes \
+            autoconf \
+            automake \
+            build-essential \
+            libasound2-dev \
+            libgl1-mesa-dev \
+            libglu1-mesa-dev \
+            mesa-common-dev \
+            xorg-dev
+
+      - name: Build and install raylib 6.0
+        run: |
+          git clone --depth 1 --branch 6.0 https://github.com/raysan5/raylib.git raylib
+          make -C raylib/src PLATFORM=PLATFORM_DESKTOP RAYLIB_LIBTYPE=SHARED
+          sudo make -C raylib/src install RAYLIB_LIBTYPE=SHARED
+          sudo ldconfig
+
+      - name: Generate build system
+        run: autoreconf --install
+
+      - name: Configure
+        run: |
+          mkdir -p build
+          cd build
+          ../configure
+
+      - name: Build
+        run: make -C build
