@@ -24,15 +24,15 @@ void DrawGameMenu(void)
 
     DrawText("STEEL", 104, 76, 66, RAYWHITE);
     DrawText("MONSTERS", 104, 139, 66, (Color){226, 163, 100, 255});
-    DrawText("TANK DUEL", 108, 224, 19, (Color){170, 193, 198, 255});
+    DrawText("TURN-BASED ARTILLERY DUEL", 108, 224, 19, (Color){170, 193, 198, 255});
 
     DrawRectangleRounded(startButton, 0.18f, 10, buttonColor);
     const char *buttonLabel = "START BATTLE";
     DrawText(buttonLabel, (GAME_WINDOW_WIDTH - MeasureText(buttonLabel, 24)) / 2,
              (int)startButton.y + 17, 24, RAYWHITE);
 
-    DrawText("A / D or arrows  -  MOVE", 339, 397, 18, (Color){205, 216, 212, 255});
-    DrawText("SPACE  -  FIRE     P  -  PAUSE", 313, 427, 18, (Color){205, 216, 212, 255});
+    DrawText("UP / DOWN  -  AIM       W / S  -  POWER", 306, 390, 18, (Color){205, 216, 212, 255});
+    DrawText("A / D  -  MOVE       SPACE  -  FIRE       P  -  PAUSE", 226, 421, 18, (Color){205, 216, 212, 255});
 
     EndDrawing();
 

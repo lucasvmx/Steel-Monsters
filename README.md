@@ -3,13 +3,16 @@
 
 # Steel Monsters
 
-It's a 2D battle game between tanks
+It's a 2D turn-based artillery game between tanks.
 
 ## Gameplay
 
-Fight the enemy tank, avoid its shells, and land three hits to win. Hold Space to fire repeatedly.
+Take turns firing ballistic shells at the enemy tank. Set your cannon angle and shot power, account for the wind, and reshape the battlefield with craters. Land three hits to win.
 
-- Move with `A` / `D` or the arrow keys.
+- Adjust the cannon angle with `Up` / `Down`.
+- Adjust shot power with `W` / `S`.
+- Move with `A` / `D` during your turn.
+- Fire with `Space`.
 - Press `P` to pause or resume.
 - Press `Esc` to return to the menu.
 - After a battle, press `Enter` to play again.
